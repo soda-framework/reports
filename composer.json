@@ -1,0 +1,31 @@
+{
+  "name": "soda-framework/reports",
+  "license": "MIT",
+  "description": "Soda Framework: Reports",
+  "keywords": [
+    "CMS",
+    "Soda",
+    "Framework",
+    "Reports",
+    "Laravel"
+  ],
+  "authors": [
+    {
+      "name": "Ryan Brereton-Canham",
+      "email": "ryzaar@hotmail.com"
+    },
+    {
+      "name": "Jarrad Littleford",
+      "email": "jplittleford@gmail.com"
+    }
+  ],
+  "require": {
+    "php": ">=5.5.9",
+    "soda-framework/cms": "0.4.*"
+  },
+  "autoload": {
+    "psr-4": {
+      "Soda\\Reports\\": "src/"
+    }
+  }
+}
