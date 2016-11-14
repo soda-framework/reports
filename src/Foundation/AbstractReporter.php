@@ -5,28 +5,42 @@ namespace Soda\Reports\Foundation;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Soda\Reports\Models\Report;
+use Symfony\Component\HttpFoundation\StreamedResponse;
+use Barryvdh\Debugbar\Facade as Debugbar;
 
 abstract class AbstractReporter implements Reportable
 {
     protected $report;
     protected $perPage = 10;
+    protected $dontReorder = false;
 
     abstract public function query(Request $request);
     abstract public function run(Request $request);
 
     public function export(Request $request)
     {
-        $this->disableTimeLimit();
+        $query = $this->query($request);
+
+        if(!$this->dontReorder && $order = $request->input('ord')) {
+            $dir = ($order[0] === "-") ? "desc" : "asc";
+            $query->orderBy(ltrim($order, '-'), $dir);
+        }
 
         $reportName = str_slug($this->getReport()->getAttribute('name'));
+        $this->disableTimeLimit();
+        if(class_exists(Debugbar::class)) {
+            Debugbar::disable();
+        }
 
-        return response()->stream(function () use ($request) {
+        return new StreamedResponse(function () use ($query) {
+
             // Open output stream
             $handle = fopen('php://output', 'w');
+
             $headers = false;
 
             // Get all users
-            $this->query($request)->chunk(500, function ($rows) use ($handle, &$headers) {
+            $query->chunk(500, function ($rows) use ($handle, &$headers) {
                 foreach ($rows as $row) {
                     $row = $row->toArray();
 

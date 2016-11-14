@@ -21,8 +21,9 @@ class ReportController extends Controller
         $filter->build();
 
         $grid = DataGrid::source($filter);
-        $grid->add('name', 'Name', true);
-        $grid->add('description', 'Description');
+        $grid->add('name', 'Name', true)->cell(function($value, $model){
+            return $value . "<br /><span class=\"small text-muted\">" . $model->description . "</span>";
+        });
         $grid->add('last_run_at', 'Last run', true)->style('width:250px')->cell(function($value){
             return $value === null ? 'Never' : Carbon::parse($value)->diffForHumans();
         });
@@ -56,6 +57,6 @@ class ReportController extends Controller
     public function export(Request $request, $id)
     {
         $report = Report::findOrFail($id);
-        ReportHandler::export($report, $request);
+        return ReportHandler::export($report, $request);
     }
 }
