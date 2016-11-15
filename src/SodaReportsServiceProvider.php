@@ -36,6 +36,7 @@ class SodaReportsServiceProvider extends ServiceProvider
         parent::boot();
 
         $this->loadViewsFrom(__DIR__.'/../views', 'soda-reports');
+        $this->publishes([__DIR__.'/../config' => config_path('soda')], 'soda.reports.config');
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
 
         Relation::morphMap([
@@ -60,6 +61,8 @@ class SodaReportsServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/reports.php', 'soda.reports');
+
         $this->commands([
             Migrate::class,
             Seed::class,

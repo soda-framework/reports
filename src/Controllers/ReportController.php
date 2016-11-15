@@ -12,9 +12,15 @@ use Zofe\Rapyd\Facades\DataGrid;
 
 class ReportController extends Controller
 {
-    public function index()
+    public function index(Request $request)
     {
-        $filter = DataFilter::source(new Report);
+        $report = new Report;
+
+        if(!$request->has('ord')) {
+            $report = $report->ordered();
+        }
+
+        $filter = DataFilter::source($report);
         $filter->add('name', 'Name', 'text');
         $filter->submit('Search');
         $filter->reset('Clear');

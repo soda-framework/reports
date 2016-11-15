@@ -28,7 +28,10 @@ class ReportHandler
 
     protected static function updateReport(Report $report)
     {
-        $report->update(['last_run_at' => Carbon::now()]);
+        $report->update([
+            'times_ran'   => intval($report->times_ran) + 1,
+            'last_run_at' => Carbon::now(),
+        ]);
     }
 
     protected static function resolve(Report $report)
@@ -36,7 +39,7 @@ class ReportHandler
         $reportable = app($report->class);
 
         if (!$reportable instanceof Reportable) {
-            throw new RuntimeException('Report "' . get_class($reportable).'" must implement "'.Reportable::class . '"');
+            throw new RuntimeException('Report "'.get_class($reportable).'" must implement "'.Reportable::class.'"');
         }
 
         $reportable->setReport($report);
