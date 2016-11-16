@@ -43,7 +43,7 @@ abstract class AbstractReporter implements Reportable
             // Get all users
             $query->chunk(500, function ($rows) use ($handle, &$headers) {
                 foreach ($rows as $row) {
-                    $row = (array)$row;
+                    $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
 
                     // Add headers if not already present
                     if ($headers === false) {
