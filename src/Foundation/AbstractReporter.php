@@ -2,11 +2,11 @@
 
 namespace Soda\Reports\Foundation;
 
+use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Soda\Reports\Models\Report;
 use Symfony\Component\HttpFoundation\StreamedResponse;
-use Barryvdh\Debugbar\Facade as Debugbar;
 
 abstract class AbstractReporter implements Reportable
 {
@@ -15,20 +15,21 @@ abstract class AbstractReporter implements Reportable
     protected $dontReorder = false;
 
     abstract public function query(Request $request);
+
     abstract public function run(Request $request);
 
     public function export(Request $request)
     {
         $query = $this->query($request);
 
-        if(!$this->dontReorder && $order = $request->input('ord')) {
+        if (!$this->dontReorder && $order = $request->input('ord')) {
             $dir = ($order[0] === "-") ? "desc" : "asc";
             $query->orderBy(ltrim($order, '-'), $dir);
         }
 
         $reportName = str_slug($this->getReport()->getAttribute('name'));
         $this->disableTimeLimit();
-        if(class_exists(Debugbar::class)) {
+        if (class_exists(Debugbar::class)) {
             Debugbar::disable();
         }
 
@@ -42,8 +43,8 @@ abstract class AbstractReporter implements Reportable
             // Get all users
             $query->chunk(500, function ($rows) use ($handle, &$headers) {
                 foreach ($rows as $row) {
-                    $row = (array) $row;
-                    
+                    $row = (array)$row;
+
                     // Add headers if not already present
                     if ($headers === false) {
                         $headers = true;
@@ -58,6 +59,9 @@ abstract class AbstractReporter implements Reportable
             // Close the output stream
             fclose($handle);
         }, 200, [
+            'Pragma'              => 'public',
+            'Expires'             => '0',
+            'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type'        => 'text/csv',
             'Content-Disposition' => 'attachment; filename="'.$reportName.'.csv"',
         ]);
