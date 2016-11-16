@@ -8,7 +8,7 @@ Route::group([
         'soda.permission:view-reports'
     ]
 ], function () {
-    Route::get('/', 'ReportController@index')->name('soda.reports.index');
+    Route::get('/{reportId?}', 'ReportController@index')->name('soda.reports.index');
     Route::get('setup/{id}', 'ReportController@setup')->name('soda.reports.setup');
     Route::get('view/{id}', 'ReportController@view')->name('soda.reports.view');
     Route::get('export/{id}', 'ReportController@export')->name('soda.reports.export');

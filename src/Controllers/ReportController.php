@@ -12,8 +12,12 @@ use Zofe\Rapyd\Facades\DataGrid;
 
 class ReportController extends Controller
 {
-    public function index(Request $request)
+    public function index(Request $request, $reportId = null)
     {
+        if($reportId !== null) {
+            return $this->setup($reportId);
+        }
+
         $report = new Report;
 
         if(!$request->has('ord')) {
