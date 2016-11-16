@@ -38,7 +38,7 @@ class ReportController extends Controller
             return $value === null ? 'Never' : Carbon::parse($value)->diffForHumans();
         });
         $grid->add('{{ $id }}', 'Action')->style('width:120px')->cell(function($value){
-            return '<a href="' . route('soda.reports.setup', $value) . '" class="btn btn-success" style="margin-left: 5px">View</a>';
+            return '<a href="' . route('soda.reports.index', $value) . '" class="btn btn-success" style="margin-left: 5px">View</a>';
         });
 
         $grid->paginate(20)->getGrid(soda_cms_view_path('partials.grid'));
