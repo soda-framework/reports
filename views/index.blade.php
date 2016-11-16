@@ -7,7 +7,7 @@
     </ol>
 @stop
 
-@section('head.cms')
+@section('head.title')
     <title>Reports</title>
 @endsection
 
