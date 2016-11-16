@@ -9,7 +9,7 @@
 @stop
 
 @section('head.title')
-    <title>Reports</title>
+    <title>{{ isset($report) ? $report->name : 'Report' }}</title>
 @endsection
 
 @section('content-heading-button')
