@@ -32,6 +32,8 @@ abstract class AbstractReporter implements Reportable
             Debugbar::disable();
         }
 
+        $reportName = $this->getReportName($request);
+
         return new StreamedResponse(function () use ($query) {
 
             // Open output stream
@@ -62,7 +64,7 @@ abstract class AbstractReporter implements Reportable
             'Expires'             => '0',
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type'        => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="'.$this->getReportName($request).'.csv"',
+            'Content-Disposition' => 'attachment; filename="'.$reportName.'.csv"',
         ]);
     }
 
