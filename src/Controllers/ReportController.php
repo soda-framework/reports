@@ -24,7 +24,7 @@ class ReportController extends Controller
             $report = $report->ordered();
         }
 
-        $filter = DataFilter::source($report);
+        $filter = DataFilter::source($report->permitted());
         $filter->add('name', 'Name', 'text');
         $filter->submit('Search');
         $filter->reset('Clear');
@@ -41,14 +41,14 @@ class ReportController extends Controller
             return '<a href="' . route('soda.reports.index', $value) . '" class="btn btn-success" style="margin-left: 5px">View</a>';
         });
 
-        $grid->paginate(20)->getGrid(soda_cms_view_path('partials.grid'));
+        $grid->paginate(10)->getGrid(soda_cms_view_path('partials.grid'));
 
         return view('soda-reports::index', compact('filter', 'grid'));
     }
 
     public function setup($id)
     {
-        $report = Report::with('fields')->findOrFail($id);
+        $report = Report::permitted()->with('fields')->findOrFail($id);
 
         if (!count($report->getRelation('fields'))) {
             return redirect()->route('soda.reports.view', $id);
@@ -59,14 +59,14 @@ class ReportController extends Controller
 
     public function view(Request $request, $id)
     {
-        $report = Report::findOrFail($id);
+        $report = Report::permitted()->findOrFail($id);
 
         return ReportHandler::run($report, $request);
     }
 
     public function export(Request $request, $id)
     {
-        $report = Report::findOrFail($id);
+        $report = Report::permitted()->findOrFail($id);
         return ReportHandler::export($report, $request);
     }
 }

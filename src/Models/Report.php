@@ -5,6 +5,8 @@ namespace Soda\Reports\Models;
 use Illuminate\Database\Eloquent\Model;
 use Soda\Cms\Models\Field;
 use Soda\Cms\Models\Traits\OptionallyInApplicationTrait;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Support\Facades\Auth;
 
 class Report extends Model
 {
@@ -38,6 +40,21 @@ class Report extends Model
         return $this->morphToMany(Field::class, 'fieldable')->withPivot('position')->orderBy('pivot_position', 'asc');
     }
 
+    /**
+     * Many-to-Many relations with role model.
+     *
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     */
+    public function roles()
+    {
+        return $this->belongsToMany(
+            Config::get('laratrust.role'),
+            'report_role',
+            'report_id',
+            Config::get('laratrust.role_foreign_key')
+        );
+    }
+
     public function scopeOrdered($q)
     {
         foreach (config('soda.reports.order') as $order => $dir) {
@@ -45,5 +62,18 @@ class Report extends Model
         }
 
         return $q;
+    }
+
+    public function scopePermitted($q)
+    {
+        return $q->whereIn('id', function($sq) {
+            $rolesTable = $this->roles()->getTable();
+            $userRoles = Auth::user()->roles->pluck('id');
+
+            $sq->select('report_id')
+                ->from($rolesTable)
+                ->whereNull('role_id')
+                ->orWhereIn('role_id', $userRoles);
+        });
     }
 }
