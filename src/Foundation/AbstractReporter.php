@@ -27,7 +27,6 @@ abstract class AbstractReporter implements Reportable
             $query->orderBy(ltrim($order, '-'), $dir);
         }
 
-        $reportName = str_slug($this->getReport()->getAttribute('name'));
         $this->disableTimeLimit();
         if (class_exists(Debugbar::class)) {
             Debugbar::disable();
@@ -43,7 +42,7 @@ abstract class AbstractReporter implements Reportable
             // Get all users
             $query->chunk(500, function ($rows) use ($handle, &$headers) {
                 foreach ($rows as $row) {
-                    $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
+                    $row = method_exists($row, 'toArray') ? $row->toArray() : (array)$row;
 
                     // Add headers if not already present
                     if ($headers === false) {
@@ -63,8 +62,13 @@ abstract class AbstractReporter implements Reportable
             'Expires'             => '0',
             'Cache-Control'       => 'must-revalidate, post-check=0, pre-check=0',
             'Content-Type'        => 'text/csv',
-            'Content-Disposition' => 'attachment; filename="'.$reportName.'.csv"',
+            'Content-Disposition' => 'attachment; filename="'.$this->getReportName($request).'.csv"',
         ]);
+    }
+
+    public function getReportName(Request $request)
+    {
+        return str_slug($this->getReport()->getAttribute('name'));
     }
 
     public function setReport(Report $report)
