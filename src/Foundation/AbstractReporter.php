@@ -28,7 +28,7 @@ abstract class AbstractReporter implements Reportable
         }
 
         $this->disableTimeLimit();
-        if (class_exists(Debugbar::class)) {
+        if (class_exists(Debugbar::class) && env('APP_DEBUG') == true) {
             Debugbar::disable();
         }
 
