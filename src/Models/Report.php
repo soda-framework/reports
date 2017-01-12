@@ -3,14 +3,13 @@
 namespace Soda\Reports\Models;
 
 use Illuminate\Database\Eloquent\Model;
-use Soda\Cms\Models\Field;
-use Soda\Cms\Models\Traits\OptionallyInApplicationTrait;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Soda\Cms\Database\Support\Models\Traits\OptionallyBoundToApplication;
 
 class Report extends Model
 {
-    use OptionallyInApplicationTrait;
+    use OptionallyBoundToApplication;
 
     protected $table = 'reports';
 
@@ -37,7 +36,7 @@ class Report extends Model
 
     public function fields()
     {
-        return $this->morphToMany(Field::class, 'fieldable')->withPivot('position')->orderBy('pivot_position', 'asc');
+        return $this->morphToMany(resolve_class('soda.field.model'), 'fieldable')->withPivot('position')->orderBy('pivot_position', 'asc');
     }
 
     /**
@@ -48,10 +47,10 @@ class Report extends Model
     public function roles()
     {
         return $this->belongsToMany(
-            Config::get('laratrust.role'),
+            config('laratrust.role'),
             'report_role',
             'report_id',
-            Config::get('laratrust.role_foreign_key')
+            config('laratrust.role_foreign_key')
         );
     }
 
@@ -66,7 +65,7 @@ class Report extends Model
 
     public function scopePermitted($q)
     {
-        return $q->whereIn('id', function($sq) {
+        return $q->whereIn('id', function ($sq) {
             $rolesTable = $this->roles()->getTable();
             $userRoles = Auth::user()->roles->pluck('id');
 

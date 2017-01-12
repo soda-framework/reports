@@ -40,10 +40,10 @@ class SodaReportsServiceProvider extends ServiceProvider
         $this->loadMigrationsFrom(__DIR__.'/../migrations');
 
         Relation::morphMap([
-            'Report'  => Report::class,
+            'Report' => Report::class,
         ]);
 
-        \SodaMenu::menu('sidebar', function ($menu) {
+        app('soda.menu')->menu('sidebar', function ($menu) {
             $menu->addItem('Reports', [
                 'url'         => route('soda.reports.index'),
                 'label'       => 'Reports',

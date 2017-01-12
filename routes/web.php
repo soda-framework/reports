@@ -3,7 +3,7 @@
 Route::group([
     'prefix' => config('soda.cms.path') . '/reports' ,
     'middleware' => [
-        'soda.main',
+        'soda.web',
         'soda.auth',
         'soda.permission:view-reports'
     ]
