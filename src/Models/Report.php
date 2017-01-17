@@ -2,9 +2,9 @@
 
 namespace Soda\Reports\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\Model;
 use Soda\Cms\Database\Support\Models\Traits\OptionallyBoundToApplication;
 
 class Report extends Model

@@ -2,10 +2,9 @@
 
 namespace Soda\Reports\Foundation;
 
-use Barryvdh\Debugbar\Facade as Debugbar;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
 use Soda\Reports\Models\Report;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 abstract class AbstractReporter implements Reportable
@@ -22,8 +21,8 @@ abstract class AbstractReporter implements Reportable
     {
         $query = $this->query($request);
 
-        if (!$this->dontReorder && $order = $request->input('ord')) {
-            $dir = ($order[0] === "-") ? "desc" : "asc";
+        if (! $this->dontReorder && $order = $request->input('ord')) {
+            $dir = ($order[0] === '-') ? 'desc' : 'asc';
             $query->orderBy(ltrim($order, '-'), $dir);
         }
 
@@ -41,7 +40,7 @@ abstract class AbstractReporter implements Reportable
             // Get all users
             $query->chunk(500, function ($rows) use ($handle, &$headers) {
                 foreach ($rows as $row) {
-                    $row = method_exists($row, 'toArray') ? $row->toArray() : (array)$row;
+                    $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
 
                     // Add headers if not already present
                     if ($headers === false) {

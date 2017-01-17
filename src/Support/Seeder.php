@@ -6,9 +6,8 @@ use Illuminate\Database\Seeder as BaseSeeder;
 
 class Seeder extends BaseSeeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */

@@ -1,12 +1,12 @@
 <?php
 
 Route::group([
-    'prefix' => config('soda.cms.path') . '/reports' ,
+    'prefix' => config('soda.cms.path').'/reports',
     'middleware' => [
         'soda.web',
         'soda.auth',
-        'soda.permission:view-reports'
-    ]
+        'soda.permission:view-reports',
+    ],
 ], function () {
     Route::get('/{reportId?}', 'ReportController@index')->name('soda.reports.index');
     Route::get('view/{id}', 'ReportController@view')->name('soda.reports.view');

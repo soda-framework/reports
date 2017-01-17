@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class AddForeignKeysToReportsTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -29,5 +28,4 @@ class AddForeignKeysToReportsTable extends Migration
             $table->dropForeign('FK_reports_applications');
         });
     }
-
 }
