@@ -2,11 +2,11 @@
 
 namespace Soda\Reports\Models;
 
-use Illuminate\Database\Eloquent\Model;
 use Soda\Cms\Models\Field;
-use Soda\Cms\Models\Traits\OptionallyInApplicationTrait;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Config;
+use Illuminate\Database\Eloquent\Model;
+use Soda\Cms\Models\Traits\OptionallyInApplicationTrait;
 
 class Report extends Model
 {
@@ -66,7 +66,7 @@ class Report extends Model
 
     public function scopePermitted($q)
     {
-        return $q->whereIn('id', function($sq) {
+        return $q->whereIn('id', function ($sq) {
             $rolesTable = $this->roles()->getTable();
             $userRoles = Auth::user()->roles->pluck('id');
 

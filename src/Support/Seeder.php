@@ -2,16 +2,15 @@
 
 namespace Soda\Reports\Support;
 
-use Illuminate\Database\Seeder as BaseSeeder;
-use Soda\Cms\Models\Permission;
 use Soda\Cms\Models\Role;
 use Soda\Cms\Models\User;
+use Soda\Cms\Models\Permission;
+use Illuminate\Database\Seeder as BaseSeeder;
 
 class Seeder extends BaseSeeder
 {
-
     /**
-     * Auto generated seed file
+     * Auto generated seed file.
      *
      * @return void
      */
@@ -35,7 +34,7 @@ class Seeder extends BaseSeeder
 
         $admins = User::whereRoleIs('admin')->get();
 
-        foreach($admins as $admin) {
+        foreach ($admins as $admin) {
             $admin->attachRole($role_reporter);
         }
     }
