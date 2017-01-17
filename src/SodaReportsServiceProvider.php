@@ -1,12 +1,13 @@
 <?php
+
 namespace Soda\Reports;
 
-use Illuminate\Database\Eloquent\Relations\Relation;
-use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
-use Illuminate\Support\Facades\Route;
-use Soda\Reports\Console\Migrate;
 use Soda\Reports\Console\Seed;
 use Soda\Reports\Models\Report;
+use Soda\Reports\Console\Migrate;
+use Illuminate\Support\Facades\Route;
+use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 
 class SodaReportsServiceProvider extends ServiceProvider
 {
@@ -80,7 +81,7 @@ class SodaReportsServiceProvider extends ServiceProvider
             'middleware' => 'web',
             'namespace'  => $this->namespace,
         ], function ($router) {
-            require(__DIR__.'/../routes/web.php');
+            require __DIR__.'/../routes/web.php';
         });
     }
 }

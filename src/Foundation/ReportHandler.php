@@ -3,8 +3,8 @@
 namespace Soda\Reports\Foundation;
 
 use Carbon\Carbon;
-use Illuminate\Http\Request;
 use RuntimeException;
+use Illuminate\Http\Request;
 use Soda\Reports\Models\Report;
 
 class ReportHandler
@@ -38,7 +38,7 @@ class ReportHandler
     {
         $reportable = app($report->class);
 
-        if (!$reportable instanceof Reportable) {
+        if (! $reportable instanceof Reportable) {
             throw new RuntimeException('Report "'.get_class($reportable).'" must implement "'.Reportable::class.'"');
         }
 

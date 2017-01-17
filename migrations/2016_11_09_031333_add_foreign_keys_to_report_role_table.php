@@ -1,11 +1,10 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 class AddForeignKeysToReportRoleTable extends Migration
 {
-
     /**
      * Run the migrations.
      *
@@ -31,5 +30,4 @@ class AddForeignKeysToReportRoleTable extends Migration
             $table->dropForeign('report_role_role_id_foreign');
         });
     }
-
 }
