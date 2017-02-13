@@ -7,6 +7,7 @@ app.php Providers:
     Soda\Reports\SodaReportsServiceProvider::class
 
 php artisan soda:reports:migrate
+
 php artisan soda:reports:seed
 
 
