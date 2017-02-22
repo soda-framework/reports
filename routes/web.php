@@ -1,7 +1,7 @@
 <?php
 
 Route::group([
-    'prefix' => config('soda.cms.path').'/reports',
+    'prefix'     => config('soda.cms.path').'/reports',
     'middleware' => [
         'soda.web',
         'soda.auth',

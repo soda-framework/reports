@@ -13,7 +13,10 @@
 *.jpg binary
 *.data binary
 
-themes/shared/public/components/* linguist-vendored
-themes/shared/resources/components/* linguist-vendored
+.editorconfig export-ignore
+.gitattributes export-ignore
+.gitignore export-ignore
+.php_cs export-ignore
+
 resources/components/* linguist-vendored
 public/components/* linguist-vendored
