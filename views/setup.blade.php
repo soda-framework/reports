@@ -28,7 +28,7 @@
     <div class="content-block">
         <form id="report-form" method="GET" action='{{route('soda.reports.view',['id' => $report->id])}}' enctype="multipart/form-data">
             @foreach($report->fields as $field)
-                {!! SodaForm::field($field)->setModel($report) !!}
+                {!! app('soda.form')->field($field)->setModel($report) !!}
             @endforeach
         </form>
     </div>
