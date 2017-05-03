@@ -44,15 +44,13 @@ class SodaReportsServiceProvider extends ServiceProvider
             'Report'  => Report::class,
         ]);
 
-        \SodaMenu::menu('sidebar', function ($menu) {
-            $menu->addItem('Reports', [
-                'url'         => route('soda.reports.index'),
-                'label'       => 'Reports',
-                'icon'        => 'fa fa-bar-chart',
-                'isCurrent'   => soda_request_is('reports*'),
-                'permissions' => 'view-reports',
-            ]);
-        });
+        $this->app['soda.menu']->addItem('Reports', [
+            'url'         => route('soda.reports.index'),
+            'label'       => 'Reports',
+            'icon'        => 'fa fa-bar-chart',
+            'isCurrent'   => soda_request_is('reports*'),
+            'permissions' => 'view-reports',
+        ]);
     }
 
     /**
