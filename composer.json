@@ -21,7 +21,7 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "soda-framework/cms": ">0.6 <0.7"
+    "soda-framework/cms": "^0.8"
   },
   "autoload": {
     "psr-4": {
@@ -32,7 +32,7 @@
     "branch-alias": {
       "dev-release/0.1": "0.1.x-dev",
       "dev-release/0.2": "0.2.x-dev",
-      "dev-release/0.2": "0.2.x-dev",
+      "dev-release/0.3": "0.3.x-dev",
       "dev-master": "0.2.x-dev"
     }
   }

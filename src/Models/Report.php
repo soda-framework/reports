@@ -3,9 +3,8 @@
 namespace Soda\Reports\Models;
 
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
-use Soda\Cms\Database\Support\Models\Traits\OptionallyBoundToApplication;
+use Soda\Cms\Database\Models\Traits\OptionallyBoundToApplication;
 
 class Report extends Model
 {
