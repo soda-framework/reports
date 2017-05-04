@@ -4,14 +4,20 @@ namespace Soda\Reports\Controllers;
 
 use Carbon\Carbon;
 use Illuminate\Http\Request;
-use Soda\Reports\Models\Report;
-use Zofe\Rapyd\Facades\DataGrid;
 use Illuminate\Routing\Controller;
-use Zofe\Rapyd\Facades\DataFilter;
 use Soda\Reports\Foundation\ReportHandler;
+use Soda\Reports\Models\Report;
+use Zofe\Rapyd\Facades\DataFilter;
+use Zofe\Rapyd\Facades\DataGrid;
 
 class ReportController extends Controller
 {
+    public function __construct()
+    {
+        app('soda.interface')->setHeading('Reports')->setHeadingIcon('fa fa-bar-chart');
+        app('soda.interface')->breadcrumbs()->addLink(route('soda.home'), 'Home');
+    }
+
     public function index(Request $request, $reportId = null)
     {
         if ($reportId !== null) {
@@ -20,7 +26,7 @@ class ReportController extends Controller
 
         $report = new Report;
 
-        if (! $request->has('ord')) {
+        if (!$request->has('ord')) {
             $report = $report->ordered();
         }
 
@@ -50,9 +56,12 @@ class ReportController extends Controller
     {
         $report = Report::permitted()->with('fields')->findOrFail($id);
 
-        if (! count($report->getRelation('fields'))) {
+        if (!count($report->getRelation('fields'))) {
             return redirect()->route('soda.reports.view', $id);
         }
+
+        app('soda.interface')->breadcrumbs()->addLink(route('soda.reports.index'), 'Reports');
+        app('soda.interface')->setHeading('Setup: ' . $report->name);
 
         return view('soda-reports::setup', compact('report'));
     }
@@ -60,6 +69,9 @@ class ReportController extends Controller
     public function view(Request $request, $id)
     {
         $report = Report::permitted()->findOrFail($id);
+
+        app('soda.interface')->breadcrumbs()->addLink(route('soda.reports.index'), 'Reports');
+        app('soda.interface')->setHeading($report->name);
 
         return ReportHandler::run($report, $request);
     }

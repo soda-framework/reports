@@ -3,6 +3,8 @@
 namespace Soda\Reports\Support;
 
 use Illuminate\Database\Seeder as BaseSeeder;
+use Soda\Cms\Database\Models\Permission;
+use Soda\Cms\Database\Models\Role;
 
 class Seeder extends BaseSeeder
 {
@@ -13,16 +15,13 @@ class Seeder extends BaseSeeder
      */
     public function run()
     {
-        $roleModel = app('soda.role.model');
-        $permissionModel = app('soda.permission.model');
-
-        $roleReporter = $roleModel->firstOrCreate([
+        $roleReporter = Role::firstOrCreate([
             'name'         => 'reporter',
             'display_name' => 'Reporter',
             'description'  => 'Reporters have access to generate, read and export reports.',
         ]);
 
-        $permissionAccessReports = $permissionModel->firstOrCreate([
+        $permissionAccessReports = Permission::firstOrCreate([
             'name'         => 'view-reports',
             'display_name' => 'View Reports',
             'description'  => 'View, generate and export reports.',
@@ -33,7 +32,11 @@ class Seeder extends BaseSeeder
             $permissionAccessReports,
         ]);
 
-        if ($adminRole = $roleModel->whereName('admin')->first()) {
+        if ($adminRole = Role::whereName('developer')->first()) {
+            $adminRole->attachPermission($permissionAccessReports);
+        }
+
+        if ($adminRole = Role::whereName('admin')->first()) {
             $adminRole->attachPermission($permissionAccessReports);
         }
     }
