@@ -2,9 +2,8 @@
 
 namespace Soda\Reports;
 
-use Soda\Reports\Console\Seed;
 use Soda\Reports\Models\Report;
-use Soda\Reports\Console\Migrate;
+use Soda\Reports\Console\Install;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Database\Eloquent\Relations\Relation;
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
@@ -65,8 +64,7 @@ class SodaReportsServiceProvider extends ServiceProvider
         $this->mergeConfigFrom(__DIR__.'/../config/reports.php', 'soda.reports');
 
         $this->commands([
-            Migrate::class,
-            Seed::class,
+            Install::class,
         ]);
     }
 
