@@ -2,9 +2,9 @@
 
 namespace Soda\Reports\Support;
 
-use Illuminate\Database\Seeder as BaseSeeder;
-use Soda\Cms\Database\Models\Permission;
 use Soda\Cms\Database\Models\Role;
+use Soda\Cms\Database\Models\Permission;
+use Illuminate\Database\Seeder as BaseSeeder;
 
 class Seeder extends BaseSeeder
 {
@@ -28,7 +28,7 @@ class Seeder extends BaseSeeder
         ]);
 
         foreach (['developer', 'super-admin', 'admin', 'reporter'] as $roleName) {
-            if($role = Role::where('name', $roleName)->first()) {
+            if ($role = Role::where('name', $roleName)->first()) {
                 $role->attachPermissions([
                     $permission_access_reports,
                 ]);
