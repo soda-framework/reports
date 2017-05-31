@@ -3,10 +3,10 @@
 namespace Soda\Reports\Models;
 
 use Soda\Cms\Database\Models\Field;
-use Soda\Cms\Database\Models\Traits\OptionallyBoundToApplication;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Database\Eloquent\Model;
+use Soda\Cms\Database\Models\Traits\OptionallyBoundToApplication;
 
 class Report extends Model
 {
