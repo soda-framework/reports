@@ -44,7 +44,7 @@ class SodaReportsServiceProvider extends ServiceProvider
             'Report'  => Report::class,
         ]);
 
-        \SodaMenu::menu('sidebar', function ($menu) {
+        app('soda.menu')->menu('sidebar', function ($menu) {
             $menu->addItem('Reports', [
                 'url'         => route('soda.reports.index'),
                 'label'       => 'Reports',
