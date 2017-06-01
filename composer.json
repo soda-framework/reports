@@ -21,7 +21,7 @@
   ],
   "require": {
     "php": ">=5.5.9",
-    "soda-framework/cms": "^0.7"
+    "soda-framework/cms": ">=0.7"
   },
   "autoload": {
     "psr-4": {
