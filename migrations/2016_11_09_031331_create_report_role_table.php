@@ -14,8 +14,8 @@ class CreateReportRoleTable extends Migration
     {
         Schema::create('report_role', function (Blueprint $table) {
             $table->integer('report_id')->unsigned();
-            $table->integer('role_id')->unsigned()->nullable()->index('report_role_role_id_foreign');
-            $table->primary(['report_id', 'role_id']);
+            $table->integer('role_id')->unsigned()->nullable();
+            $table->unique(['report_id', 'role_id']);
         });
     }
 

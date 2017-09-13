@@ -4,6 +4,7 @@ namespace Soda\Reports\Models;
 
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Database\Eloquent\Model;
+use Soda\Cms\Database\Models\Field;
 use Soda\Cms\Database\Models\Traits\OptionallyBoundToApplication;
 
 class Report extends Model
@@ -35,7 +36,7 @@ class Report extends Model
 
     public function fields()
     {
-        return $this->morphToMany(resolve_class('soda.field.model'), 'fieldable')->withPivot('position')->orderBy('pivot_position', 'asc');
+        return $this->morphToMany(Field::class, 'fieldable')->withPivot('position')->orderBy('pivot_position', 'asc');
     }
 
     /**

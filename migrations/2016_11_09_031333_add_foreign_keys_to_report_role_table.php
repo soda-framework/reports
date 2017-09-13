@@ -26,8 +26,8 @@ class AddForeignKeysToReportRoleTable extends Migration
     public function down()
     {
         Schema::table('report_role', function (Blueprint $table) {
-            $table->dropForeign('report_role_report_id_foreign');
-            $table->dropForeign('report_role_role_id_foreign');
+            $table->dropForeign(['report_id']);
+            $table->dropForeign(['role_id']);
         });
     }
 }

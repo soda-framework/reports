@@ -13,7 +13,7 @@ class AddForeignKeysToReportsTable extends Migration
     public function up()
     {
         Schema::table('reports', function (Blueprint $table) {
-            $table->foreign('application_id', 'FK_reports_applications')->references('id')->on('applications')->onUpdate('CASCADE')->onDelete('CASCADE');
+            $table->foreign('application_id')->references('id')->on('applications')->onUpdate('CASCADE')->onDelete('CASCADE');
         });
     }
 
@@ -25,7 +25,7 @@ class AddForeignKeysToReportsTable extends Migration
     public function down()
     {
         Schema::table('reports', function (Blueprint $table) {
-            $table->dropForeign('FK_reports_applications');
+            $table->dropForeign(['application_id']);
         });
     }
 }

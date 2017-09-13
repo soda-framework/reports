@@ -2,6 +2,7 @@
 
 namespace Soda\Reports\Foundation;
 
+use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Soda\Reports\Models\Report;
 use Illuminate\Support\Facades\DB;
@@ -31,30 +32,7 @@ abstract class AbstractReporter implements Reportable
         $reportName = $this->getReportName($request);
 
         return new StreamedResponse(function () use ($query) {
-
-            // Open output stream
-            $handle = fopen('php://output', 'w');
-
-            $headers = false;
-
-            // Get all users
-            $query->chunk(500, function ($rows) use ($handle, &$headers) {
-                foreach ($rows as $row) {
-                    $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
-
-                    // Add headers if not already present
-                    if ($headers === false) {
-                        $headers = true;
-                        fputcsv($handle, array_keys($row));
-                    }
-
-                    // Add a new row with data
-                    fputcsv($handle, $row);
-                }
-            });
-
-            // Close the output stream
-            fclose($handle);
+            $this->buildCsv($query);
         }, 200, [
             'Pragma'              => 'public',
             'Expires'             => '0',
@@ -62,6 +40,46 @@ abstract class AbstractReporter implements Reportable
             'Content-Type'        => 'text/csv',
             'Content-Disposition' => 'attachment; filename="'.$reportName.'.csv"',
         ]);
+    }
+
+    public function buildCsv($query) {
+        // Open output stream
+        $handle = fopen('php://output', 'w');
+
+        $headers = false;
+
+        // Get all users
+        $query->chunk(500, function ($rows) use ($handle, &$headers) {
+            foreach ($rows as $row) {
+                // Add headers if not already present
+                if ($headers === false) {
+                    $headers = true;
+                    fputcsv($handle, $this->insertCsvHeader($row));
+                }
+
+                // Add a new row with data
+                fputcsv($handle, $this->insertCsvRow($row));
+            }
+        });
+
+        // Close the output stream
+        fclose($handle);
+    }
+
+    public function insertCsvRow($row) {
+        $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
+
+        if(method_exists($this, 'formatCsvRow')) $row = $this->formatCsvRow($row);
+
+        return $row;
+    }
+
+    public function insertCsvHeader($row) {
+        $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
+
+        if(method_exists($this, 'formatCsvRow')) $row = $this->formatCsvRow($row);
+
+        return array_keys($row);
     }
 
     public function getReportName(Request $request)

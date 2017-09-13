@@ -17,7 +17,7 @@ class CreateReportsTable extends Migration
             $table->string('name');
             $table->text('description', 65535)->nullable();
             $table->string('class');
-            $table->integer('application_id')->unsigned()->nullable()->index('fk_reports_applications1_idx');
+            $table->integer('application_id')->unsigned()->nullable();
             $table->integer('position')->unsigned()->nullable();
             $table->integer('times_ran')->unsigned()->nullable();
             $table->timestamp('last_run_at');
