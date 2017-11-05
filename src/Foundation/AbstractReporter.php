@@ -2,7 +2,6 @@
 
 namespace Soda\Reports\Foundation;
 
-use Illuminate\Database\Query\Builder;
 use Illuminate\Http\Request;
 use Soda\Reports\Models\Report;
 use Illuminate\Support\Facades\DB;
@@ -42,7 +41,8 @@ abstract class AbstractReporter implements Reportable
         ]);
     }
 
-    public function buildCsv($query) {
+    public function buildCsv($query)
+    {
         // Open output stream
         $handle = fopen('php://output', 'w');
 
@@ -66,18 +66,24 @@ abstract class AbstractReporter implements Reportable
         fclose($handle);
     }
 
-    public function insertCsvRow($row) {
+    public function insertCsvRow($row)
+    {
         $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
 
-        if(method_exists($this, 'formatCsvRow')) $row = $this->formatCsvRow($row);
+        if (method_exists($this, 'formatCsvRow')) {
+            $row = $this->formatCsvRow($row);
+        }
 
         return $row;
     }
 
-    public function insertCsvHeader($row) {
+    public function insertCsvHeader($row)
+    {
         $row = method_exists($row, 'toArray') ? $row->toArray() : (array) $row;
 
-        if(method_exists($this, 'formatCsvRow')) $row = $this->formatCsvRow($row);
+        if (method_exists($this, 'formatCsvRow')) {
+            $row = $this->formatCsvRow($row);
+        }
 
         return array_keys($row);
     }
