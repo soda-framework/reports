@@ -47,7 +47,7 @@ class Report extends Model
     public function roles()
     {
         return $this->belongsToMany(
-            config('laratrust.role'),
+            config('laratrust.models.role'),
             'report_role',
             'report_id',
             config('laratrust.role_foreign_key')
